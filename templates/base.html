@@ -1,0 +1,29 @@
+<html>
+    <meta>
+        <title>git-it-done</title>
+    </meta>
+    <body style="margin: 10px 40px 0px;">
+        <div style="float: right;">[<a href="{% url tasks %}?all=1">all tasks</a>]</div>
+        <h2>git-it-done</h2>
+        <div style="float: right;">
+        <span>{% if task %} Edit Task {% else %} Add Task {% endif %}</span>
+        <form method="POST" action="{% url new_task %}">
+            <input type="hidden" name="pk" value="{{ task.pk }}" />
+            <input type="text" name="name" value="{{ task.name }}" width="60"/>
+            <br/>
+            <textarea name="description" cols="30" rows="10">{{ task.description }}</textarea>
+            <br/>
+            <input type="submit" name="save" value="save" />
+        </form>
+        </div>
+        <br/>
+        <span>Search Tasks</span>
+        <form method="GET" action="{% url search_tasks%}">
+            <input type="text" name="q" size="80" value="{{ q }}"/>
+            <input type="submit" value="search tasks" />
+        </form>
+
+        {% block content %}
+        {% endblock content %}
+    </body>
+</html>
