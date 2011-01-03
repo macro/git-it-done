@@ -9,8 +9,10 @@
         <span>{% if task %} Edit Task {% else %} Add Task {% endif %}</span>
         <form method="POST" action="{% url new_task %}">
             <input type="hidden" name="pk" value="{{ task.pk }}" />
+            <label for="name">Name</label><br/>
             <input type="text" name="name" value="{{ task.name }}" width="60"/>
             <br/>
+            <label for="description">Description</label><br/>
             <textarea name="description" cols="30" rows="10">{{ task.description }}</textarea>
             <br/>
             <input type="submit" name="save" value="save" />

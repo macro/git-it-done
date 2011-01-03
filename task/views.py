@@ -8,7 +8,7 @@ from django.shortcuts import render_to_response
 from task.models import Task
 
 
-ITEMS_PER_PAGE = 4
+ITEMS_PER_PAGE = 10
 
 class Pages(object):
     def __init__(self, request, items, page_size):
