@@ -2,7 +2,7 @@
 
 {% block content %}
     {{ pages.page_links|safe }}
-    <ul>
+    <ul style="width: 70%;">
         {% for t in tasks %}
             <li>
                  <div><a href="{% url tasks %}?pk={{ t.pk }}">[{{ t.pk }}] {{ t.name }}</a></div>
