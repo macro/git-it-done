@@ -1,0 +1,45 @@
+#!/usr/bin/env python
+
+import re
+import urllib
+import urllib2
+from subprocess import Popen, PIPE
+
+
+BASE_URL = 'http://127.0.0.1:8001'
+
+def shell(cmd, env=None):
+    return Popen(cmd, stdout=PIPE, shell=True).communicate()[0]
+
+def new_task(name, description):
+    task = urllib.urlencode({
+        'name': name,
+        'description': description,
+    })
+    urllib2.urlopen('%s/new-task/' % BASE_URL, task)
+
+def complete_task(pk, h, description=None):
+    task = urllib.urlencode({
+        'pk': pk,
+        'hash': h,
+    })
+    urllib2.urlopen('%s/complete-task/' % BASE_URL, task)
+
+FIXES_RE = re.compile(r'fixes (?P<ids>((#\d+)\s?)+) -- (?P<msg>(.*))')
+
+def main():
+    log = shell('git log -1 HEAD --pretty=format:"%H %s"',
+            env={'GIT': '/usr/bin/git'})
+    h, msg = log.split(' ', 1)
+    m = FIXES_RE.search(msg)
+    if m:
+        ids = m.groupdict()['ids']
+        for s in ids.split():
+            n = s.strip('#')
+            print "Updating tickets #%s" % n
+            complete_task(n, h)
+    else:
+        print "Commit message doesn't fix anything, not updating tickets"
+
+if __name__ == '__main__':
+    main()

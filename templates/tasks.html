@@ -5,11 +5,12 @@
     <ul style="width: 70%;">
         {% for t in tasks %}
             <li>
-                 <div><a href="{% url tasks %}?pk={{ t.pk }}">[{{ t.pk }}] {{ t.name }}</a></div>
+                 <div><a href="{% url tasks %}?pk={{ t.pk }}">[{{ t.pk }}] {{ t.name }}</a><b>{% if t.completed %} -- [DONE]{% else %} -- [TODO]{% endif %}</b></div>
                  <div>Description: {{ t.description|truncatewords:25 }}</div>
                  <div>Created: {{ t.created|timesince }} ago, Modified: {{ t.modified|timesince }} ago</div>
-                 <div>Hash: {{ t.hash }}</div>
-                 <div>Completed: {{ t.completed }}</div>
+                 {% if t.hash %}
+                 <div>Hash: <a href="{% url show_changeset t.hash %}">{{ t.hash }}</a></div>
+                 {% endif %}
                  <form method="POST" action="{% if not t.completed %} {% url complete_task %} {% else %} {% url uncomplete_task %} {% endif %}">
                      <input type="hidden" name="pk" value="{{ t.pk }}" />
                      <input type="submit" value="{% if t.completed %} uncomplete {% else %} complete {% endif %}" />
