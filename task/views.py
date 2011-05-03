@@ -7,6 +7,7 @@ from django.db.models.query import QuerySet
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
 
 from task.models import Task
 
@@ -84,6 +85,7 @@ class Pages(object):
         return ('<div class="page-links"><h4>%d to %d of %d %s</h4>' % (start+1, end,
                     self.item_count, self.label) + ' | '.join(page_links) + '</div>')
 
+@csrf_exempt
 def tasks(request):
     pk = request.REQUEST.get('pk')
     task = None
@@ -124,6 +126,7 @@ def search_tasks(request):
     }
     return render_to_response('tasks.html', context)
 
+@csrf_exempt
 def new_task(request):
     name = unicode.strip(request.POST.get('name'))
     description = unicode.strip(request.POST.get('description'))
@@ -137,6 +140,7 @@ def new_task(request):
     task.save()
     return HttpResponseRedirect(reverse('tasks'))
 
+@csrf_exempt
 def uncomplete_task(request):
     pk = request.POST.get('pk')
     if pk:
@@ -149,6 +153,7 @@ def uncomplete_task(request):
             task.save()
     return HttpResponseRedirect(reverse('tasks'))
 
+@csrf_exempt
 def complete_task(request):
     pk = request.POST.get('pk')
     h = request.POST.get('hash')
