@@ -8,7 +8,7 @@ Features
 --------
 
 * It is ridiculously simple!
-* Complete items directly using git commit hook
+* Complete items directly using git commit hook (commit messages should be of the format: "fixes #<item id> -- commit subject")
 * Item pagination
 * View commit diffs in-app
 
