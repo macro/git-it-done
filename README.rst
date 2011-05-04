@@ -17,3 +17,11 @@ Limitations
 
 * Single player with no access control and single repo (can run another instance to support more than repo)
 * Items only references last commit hash
+
+Install
+-------
+
+* copy task/ to your project directory
+* copy templates/ to your template directory
+* copy bin/post-commit to your repo's git hooks directory
+* add a GIT_DIR setting which points to your git local repo.
